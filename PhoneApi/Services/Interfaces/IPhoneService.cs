@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhoneApi.Services.Interfaces
 {
-    interface IPhoneService
+    public interface IPhoneService
     {
         Task<Phone> GetPhone(int phoneId);
         Task AddPhone(Phone phone);

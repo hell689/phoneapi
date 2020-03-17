@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using PhoneApi.DBRepository;
 using PhoneApi.DBRepository.Interfaces;
 using PhoneApi.DBRepository.Repositories;
+using PhoneApi.Services;
+using PhoneApi.Services.Interfaces;
 
 namespace PhoneApi
 {
@@ -32,6 +34,7 @@ namespace PhoneApi
 
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddScoped<IPhoneService, PhoneService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
