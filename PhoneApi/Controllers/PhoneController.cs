@@ -19,29 +19,37 @@ namespace PhoneApi.Controllers
             phoneService = service;
         }
 
-        [Route("phone")]
+        //[Route("phone")]
         [HttpGet]
         public async Task<List<Phone>> GetPhones()
         {   
             return await phoneService.GetAllPhones();
         }
 
-        [Route("phone")]
-        [HttpGet]
+        //[Route("phone")]
+        [HttpGet("{id}")]
         public async Task<Phone> GetPhone(int id)
         {
-            Phone phone = new Phone();
-            phone.Id = 1;
-            phone.PhoneNumber = "252-547-85";
-            return phone;
-            //return await phoneService.GetPhone(id);
+            return await phoneService.GetPhone(id);
         }
 
-        [Route("phone")]
+        //[Route("phone")]
         [HttpPost]
-        public async Task AddPhone([FromBody] Phone phone)
+        public async Task<ActionResult<Phone>> AddPhone(Phone phone)
         {
+            if (phone == null)
+            {
+                return BadRequest();
+            }
             await phoneService.AddPhone(phone);
+            return Ok(phone);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await phoneService.DeletePhone(id);
         }
     }
 }

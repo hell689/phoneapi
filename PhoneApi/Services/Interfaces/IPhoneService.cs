@@ -11,5 +11,6 @@ namespace PhoneApi.Services.Interfaces
         Task<Phone> GetPhone(int phoneId);
         Task AddPhone(Phone phone);
         Task<List<Phone>> GetAllPhones();
+        Task DeletePhone(int phoneId);
     }
 }

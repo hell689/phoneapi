@@ -35,5 +35,9 @@ namespace PhoneApi.Services
             var result = await _repository.GetPhone(phoneId);
             return result;
         }
+
+        public async Task DeletePhone(int phoneId) {
+            await _repository.DeletePhone(phoneId);
+        }
     }
 }

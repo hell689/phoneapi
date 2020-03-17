@@ -36,5 +36,15 @@ namespace PhoneApi.DBRepository.Repositories
                 return await context.Phones.FirstOrDefaultAsync(p => p.Id == phoneId);
             }
         }
+
+        public async Task DeletePhone(int phoneId)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                var phone = new Phone() { Id = phoneId };
+                context.Phones.Remove(phone);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

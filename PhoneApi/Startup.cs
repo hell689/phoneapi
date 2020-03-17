@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,7 @@ namespace PhoneApi
         {
             services.AddControllers();
 
+            services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IPhoneService, PhoneService>();
@@ -45,11 +47,17 @@ namespace PhoneApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            
+
+
+
+           //app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+
+
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
