@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using PhoneApi.DBRepository;
 using PhoneApi.DBRepository.Interfaces;
 using PhoneApi.DBRepository.Repositories;
@@ -31,8 +24,9 @@ namespace PhoneApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddControllers();
-
+            
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
@@ -40,29 +34,34 @@ namespace PhoneApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [System.Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware();
             }
 
-            
 
-
-
-           //app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
-
-
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
+              {
+                  routes.MapRoute(
+                      name: "DefaultApi",
+                      template: "api/{controller}/{action}");
+                  routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
+            });
 
             //app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            /*app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+            });*/
         }
     }
 }

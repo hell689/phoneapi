@@ -1,4 +1,7 @@
 ﻿PhoneApi/bin/
 PhoneApi/obj/
+PhoneApi/node_modules/
+PhoneApi/package-lock.json
 PhoneApi/phonedb.sqlite
+PhoneApi/wwwroot
 .vs
