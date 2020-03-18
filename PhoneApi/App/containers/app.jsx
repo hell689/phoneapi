@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './header.jsx';
 import About from './about.jsx';
 import Phone from './phone.jsx';
+import Home from './home.jsx';
 
 export default class App extends React.Component {
     render() {
@@ -15,6 +16,7 @@ export default class App extends React.Component {
                         <Switch>
                             <Route path="/about" component={About} />
                             <Route path="/phone" component={Phone} />
+                            <Route path="/" component={Home} />
                         </Switch>
                     </main>
                 </div>
