@@ -1,12 +1,19 @@
 ﻿import React from 'react';
 
 export default class Phone extends React.Component {
-    state = {
-        phones: [],//{ id: 1, phoneNumber: "22-22-22" }, { id: 2, phoneNumber: "33-33-33" }]
-        newPhone: ""
-    };
+    constructor() {
+        super();
+        this.state = {
+            phones: [],//{ id: 1, phoneNumber: "22-22-22" }, { id: 2, phoneNumber: "33-33-33" }]
+            newPhone: ""
+        };
+    }
 
-	componentDidMount() {
+    componentDidMount() {
+        this.getPhones();  
+    }
+
+    getPhones() {
         fetch(window.constants.phones)
             .then((response) => {
                 return response.json();
@@ -14,13 +21,14 @@ export default class Phone extends React.Component {
                 this.setState({
                     phones: data
                 });
-            }        
-      )  
+            }
+            )  
     }
 
     handleChange(event) {
+        let phone = event.target.value;
         this.setState({
-            newPhone: event.target.value
+            newPhone: phone
         });
     }
 
@@ -28,16 +36,20 @@ export default class Phone extends React.Component {
         fetch(window.constants.phones, {
             method: "POST",
             headers: {
-                Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 phoneNumber: this.state.newPhone,
-            }),
+            })
         })
             .then(function (response) {
-                //return response.json();
-            })
+                return response.json();
+            }).then((data) => {
+                this.getPhones();
+                this.setState({ newPhone: "" })
+            }
+            );
+        event.preventDefault(); 
     }
 
     render() {
@@ -50,10 +62,10 @@ export default class Phone extends React.Component {
                 <ul>
                     {list}
                 </ul>
-                <form onSubmit={this.addPhone}>
+                <form onSubmit={this.addPhone.bind(this)}>
                     <label>
                         Новый телефон
-                        <input type="text" value={this.state.newPhone} onChange={this.handleChange} />
+                        <input type="text" value={this.state.newPhone} onChange={this.handleChange.bind(this)} />
                     </label>
                     <input type="submit" value="Добавить" />
                 </form>
