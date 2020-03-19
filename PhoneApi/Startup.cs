@@ -24,7 +24,7 @@ namespace PhoneApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => options.EnableEndpointRouting = false);
+            services.AddMvc();//options => options.EnableEndpointRouting = false);
             services.AddControllers();
             
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
@@ -48,20 +48,29 @@ namespace PhoneApi
 
             app.UseRouting();
             app.UseStaticFiles();
-            app.UseMvc(routes =>
+            /*app.UseMvc(routes =>
               {
                   routes.MapRoute(
                       name: "DefaultApi",
                       template: "api/{controller}/{action}");
                   routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
-            });
+            });*/
 
             //app.UseAuthorization();
 
-            /*app.UseEndpoints(endpoints =>
+            app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });*/
+                endpoints.MapControllerRoute(
+                    name: "defaultApi",
+                    pattern: "api/phone/{id?}",
+                    defaults: new { controller = "Phone" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+            
         }
     }
 }
