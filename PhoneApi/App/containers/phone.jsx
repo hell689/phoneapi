@@ -52,23 +52,40 @@ export default class Phone extends React.Component {
         event.preventDefault(); 
     }
 
+    deletePhone(idForDelete) {
+        fetch(window.constants.phones + "/" + idForDelete, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                this.getPhones();
+            });
+    }
+
     render() {
         const list = this.state.phones.map((phone, index) => {
-            return <li key={index}>{phone.phoneNumber}</li>;
+            return <li class="list-group-item d-flex justify-content-between align-items-center" key={index}>
+                    {phone.phoneNumber}
+                <button class="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
+                </li>;
         });
         return (
             <div>
                 <h2>Телефоны</h2>
-                <ul>
+                <ul class="list-group">
                     {list}
                 </ul>
                 <form onSubmit={this.addPhone.bind(this)}>
-                    <label>
-                        Новый телефон
-                        <input type="tel" value={this.state.newPhone} pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}"
-                            onChange={this.handleChange.bind(this)} />
-                    </label>
-                    <input type="submit" value="Добавить" />
+                    <div class="form-group">
+                        <label>Новый телефон</label>
+                        <input type="tel" class="form-control" value={this.state.newPhone} aria-describedby="emailHelp"
+                            pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" onChange={this.handleChange.bind(this)} />
+                            <small id="emailHelp" class="form-text text-muted">Введите номер телефона в формате ХХ-ХХ-ХХ</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Добавить</button>
                 </form>
 
             </div>

@@ -5,19 +5,25 @@ export default class Header extends React.Component {
     render() {
         return (
             <header>
-                <menu>
-                    <ul>
-                        <li>
-                            <Link to="/">Главная</Link>
-                        </li>
-                        <li>
-                            <Link to="/phone">Телефоны</Link>
-                        </li>
-                        <li>
-                            <Link to="/about">info</Link>
-                        </li>
-                    </ul>
-                </menu>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <a className="navbar-brand" href="/">Телефонный справочник</a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/" >Главная</Link>
+                            </li>
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/phone" >Телефоны</Link>
+                            </li>
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/about" >info</Link>
+                            </li>
+                        </ul>
+                    </div>                                      
+                </nav>
             </header>
         );
     }

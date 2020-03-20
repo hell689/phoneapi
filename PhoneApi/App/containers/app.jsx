@@ -12,13 +12,13 @@ export default class App extends React.Component {
             <Router>
                 <div>
                     <Header />
-                    <main>
+                    <div className="container">
                         <Switch>
                             <Route path="/about" component={About} />
                             <Route path="/phone" component={Phone} />
                             <Route path="/" component={Home} />
                         </Switch>
-                    </main>
+                    </div>
                 </div>
             </Router>
         );
