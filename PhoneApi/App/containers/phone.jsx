@@ -59,33 +59,36 @@ export default class Phone extends React.Component {
                 'Content-Type': 'application/json'
             }
         })
-            .then(function (response) {
+            .then(function (response) {                
+                return response.json();
+            }).then((data) => {
                 this.getPhones();
-            });
+            }
+            );
     }
 
     render() {
         const list = this.state.phones.map((phone, index) => {
-            return <li class="list-group-item d-flex justify-content-between align-items-center" key={index}>
+            return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
                     {phone.phoneNumber}
-                <button class="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
+                <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
                 </li>;
         });
         return (
             <div>
                 <h2>Телефоны</h2>
-                <ul class="list-group">
+                <ul className="list-group">
                     {list}
                 </ul>
                 <form onSubmit={this.addPhone.bind(this)}>
-                    <div class="form-group">
+                    <div className="form-group">
                         <label>Новый телефон</label>
-                        <input type="tel" class="form-control" value={this.state.newPhone} aria-describedby="emailHelp"
+                        <input type="tel" className="form-control" value={this.state.newPhone} aria-describedby="emailHelp"
                             pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" onChange={this.handleChange.bind(this)} />
-                            <small id="emailHelp" class="form-text text-muted">Введите номер телефона в формате ХХ-ХХ-ХХ</small>
+                        <small id="emailHelp" className="form-text text-muted">Введите номер телефона в формате ХХ-ХХ-ХХ</small>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Добавить</button>
+                    <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
 
             </div>

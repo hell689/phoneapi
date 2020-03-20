@@ -47,9 +47,15 @@ namespace PhoneApi.Controllers
 
 
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<ActionResult<Phone>> Delete(int id)
         {
+            Phone phone = await phoneService.GetPhone(id);
+            if (phone == null)
+            {
+                return BadRequest();
+            }
             await phoneService.DeletePhone(id);
+            return Ok(phone);
         }
     }
 }
