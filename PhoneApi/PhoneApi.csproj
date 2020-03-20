@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200317093354_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200317093354_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200320054414_MigrationCabinetAdd.cs" />
+    <Compile Remove="Migrations\20200320054414_MigrationCabinetAdd.Designer.cs" />
+    <Compile Remove="Migrations\20200320060204_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200320060204_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200320063722_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200320063722_InitialMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.2" />
@@ -14,6 +25,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 

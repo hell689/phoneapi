@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace PhoneApi.Models
 {
-    public class Phone
+    public class Cabinet
     {
         public long Id { get; set; }
-        public string PhoneNumber { get; set; }
-        public ICollection<CabinetPhone> CabinetPhones { get; set; }
-        public ICollection<EmployeePhone> EmployeePhones { get; set; }
+        public string CabinetNumber { get; set; }
+         public ICollection<CabinetPhone> CabinetPhones { get; set; }
 
-        public Phone()
+        public Cabinet()
         {
             CabinetPhones = new List<CabinetPhone>();
-            EmployeePhones = new List<EmployeePhone>();
         }
     }
 }

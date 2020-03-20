@@ -65,7 +65,8 @@ export default class Phone extends React.Component {
                 <form onSubmit={this.addPhone.bind(this)}>
                     <label>
                         Новый телефон
-                        <input type="text" value={this.state.newPhone} onChange={this.handleChange.bind(this)} />
+                        <input type="tel" value={this.state.newPhone} pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}"
+                            onChange={this.handleChange.bind(this)} />
                     </label>
                     <input type="submit" value="Добавить" />
                 </form>

@@ -15,7 +15,7 @@ namespace PhoneApi.DBRepository.Repositories
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                var result =
+                //var result =
                 context.Phones.Add(phone);
                 await context.SaveChangesAsync();
             }
