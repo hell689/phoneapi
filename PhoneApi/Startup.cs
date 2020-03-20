@@ -29,8 +29,10 @@ namespace PhoneApi
             
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddScoped<ICabinetRepository>(provider => new CabinetRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IPhoneService, PhoneService>();
+            services.AddScoped<ICabinetService, CabinetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,18 +45,8 @@ namespace PhoneApi
                 app.UseWebpackDevMiddleware();
             }
 
-
-            //app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseStaticFiles();
-            /*app.UseMvc(routes =>
-              {
-                  routes.MapRoute(
-                      name: "DefaultApi",
-                      template: "api/{controller}/{action}");
-                  routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
-            });*/
 
             //app.UseAuthorization();
 
@@ -62,9 +54,13 @@ namespace PhoneApi
             {
                 endpoints.MapControllers();
                 endpoints.MapControllerRoute(
-                    name: "defaultApi",
+                    name: "PhoneApi",
                     pattern: "api/phone/{id?}",
                     defaults: new { controller = "Phone" });
+                endpoints.MapControllerRoute(
+                    name: "CabinetApi",
+                    pattern: "api/cabinet/{id?}",
+                    defaults: new { controller = "Cabinet" });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "",

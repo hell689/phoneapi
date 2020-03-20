@@ -1,59 +1,59 @@
 ﻿import React from 'react';
 
-export default class Phone extends React.Component {
+export default class Cabinet extends React.Component {
     constructor() {
         super();
         this.state = {
-            phones: [],//{ id: 1, phoneNumber: "22-22-22" }, { id: 2, phoneNumber: "33-33-33" }]
-            newPhone: ""
+            cabinets: [],
+            newCabinet: ""
         };
     }
 
     componentDidMount() {
-        this.getPhones();  
+        this.getCabinets();  
     }
 
-    getPhones() {
-        fetch(window.constants.phones)
+    getCabinets() {
+        fetch(window.constants.cabinets)
             .then((response) => {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    phones: data
+                    cabinets: data
                 });
             }
             )  
     }
 
     handleChange(event) {
-        let phone = event.target.value;
+        let cabinet = event.target.value;
         this.setState({
-            newPhone: phone
+            newCabinet: cabinet
         });
     }
 
-    addPhone(event) {
-        fetch(window.constants.phones, {
+    addCabinet(event) {
+        fetch(window.constants.cabinets, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                phoneNumber: this.state.newPhone,
+                CabinetNumber: this.state.newCabinet,
             })
         })
             .then(function (response) {
                 return response.json();
             }).then((data) => {
-                this.getPhones();
-                this.setState({ newPhone: "" })
+                this.getCabinets();
+                this.setState({ newCabinet: "" })
             }
             );
         event.preventDefault(); 
     }
 
-    deletePhone(idForDelete) {
-        fetch(window.constants.phones + "/" + idForDelete, {
+    deleteCabinet(idForDelete) {
+        fetch(window.constants.cabinets + "/" + idForDelete, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json'
@@ -62,30 +62,30 @@ export default class Phone extends React.Component {
             .then(function (response) {                
                 return response.json();
             }).then((data) => {
-                this.getPhones();
+                this.getCabinets();
             }
             );
     }
 
     render() {
-        const list = this.state.phones.map((phone, index) => {
+        const list = this.state.cabinets.map((cabinet, index) => {
             return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
-                    {phone.phoneNumber}
-                <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
+                {cabinet.cabinetNumber}
+                <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deleteCabinet(cabinet.id, this)}>X</button>
                 </li>;
         });
         return (
             <div>
-                <h2>Телефоны</h2>
+                <h2>Список кабинетов</h2>
                 <ul className="list-group">
                     {list}
                 </ul>
-                <form onSubmit={this.addPhone.bind(this)}>
+                <form onSubmit={this.addCabinet.bind(this)}>
                     <div className="form-group">
-                        <label>Новый телефон</label>
-                        <input type="tel" className="form-control" value={this.state.newPhone} aria-describedby="helper"
-                            pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}" onChange={this.handleChange.bind(this)} />
-                        <small id="helper" className="form-text text-muted">Введите номер телефона в формате ХХ-ХХ-ХХ</small>
+                        <label>Новый кабинет</label>
+                        <input type="text" className="form-control" value={this.state.newCabinet} aria-describedby="helper"
+                            onChange={this.handleChange.bind(this)} />
+                        <small id="helper" className="form-text text-muted">Введите номер кабинета</small>
                     </div>
 
                     <button type="submit" className="btn btn-primary">Добавить</button>
