@@ -14,7 +14,7 @@ export default class Cabinet extends React.Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         this.getCabinets(); 
-        this.setState({ isLoading: false });
+        
     }
 
     getCabinets() {
@@ -23,7 +23,8 @@ export default class Cabinet extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    cabinets: data
+                    cabinets: data,
+                    isLoading: false
                 });
             }
             )  
@@ -56,7 +57,6 @@ export default class Cabinet extends React.Component {
                 }
                 );
         }
-        this.setState({ isLoading: false });
         event.preventDefault(); 
     }
 
@@ -74,7 +74,6 @@ export default class Cabinet extends React.Component {
                 this.getCabinets();
             }
         );
-        this.setState({ isLoading: false });
     }
 
     render() {

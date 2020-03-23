@@ -31,7 +31,6 @@ export default class Phone extends React.Component {
     componentDidMount() {
         this.setState({ isLoading: true });
         this.getPhones();  
-        this.setState({ isLoading: false });
     }
 
     getPhones() {
@@ -41,7 +40,8 @@ export default class Phone extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    phones: data
+                    phones: data,
+                    isLoading: false
                 });
             }
             )  
@@ -68,10 +68,10 @@ export default class Phone extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then((data) => {
-                this.getPhones()
+                this.getPhones(),
+                this.setState({ newPhone: "" });
             }
-            );
-        this.setState({ isLoading: false });
+        );        
         event.preventDefault(); 
     }
 
@@ -87,10 +87,8 @@ export default class Phone extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.getPhones();
-
             }
         );
-        this.setState({ isLoading: false });
     }
 
     addPhoneToCabinets(phoneId) {
