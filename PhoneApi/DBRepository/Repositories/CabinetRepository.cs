@@ -1,5 +1,6 @@
 ﻿using PhoneApi.DBRepository.Interfaces;
 using PhoneApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace PhoneApi.DBRepository.Repositories
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return context.Cabinets.FirstOrDefault(c => c.Id == cabinetId);
+                return await context.Cabinets.FirstOrDefaultAsync(c => c.Id == cabinetId);
             }
         }
 

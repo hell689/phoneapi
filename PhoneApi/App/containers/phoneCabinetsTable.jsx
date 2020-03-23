@@ -10,9 +10,6 @@ export default class PhoneCabinetsTable extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({
-            cabinets: this.props.cabinets
-        });
         this.getCabinets();
     }
 
@@ -28,24 +25,23 @@ export default class PhoneCabinetsTable extends React.Component {
             )
     }
 
-    addCabinetToPhone(phone, cabinet) {
-        alert(phone.phoneNumber + "  /  " + cabinet.cabinetNumber);
-        /*fetch(window.constants.phones, {
+    addCabinetToPhone(phone, cabinetId) {
+        fetch(window.constants.phones + "/" + phone.id + "/" + cabinetId, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                phoneNumber: this.state.newPhone,
+                cabinetId: cabinetId,
+                phoneId: phone.id
             })
         })
             .then(function (response) {
                 return response.json();
-            }).then((data) => {
-                this.getPhones(),
-                    this.setState({ newPhone: "" });
+            }).then((data) => {                
+
             }
-            );*/
+            );
         event.preventDefault();
     }
 
@@ -56,7 +52,7 @@ export default class PhoneCabinetsTable extends React.Component {
 
         const cabinetList = this.state.cabinets.map((cabinet) => {
             return <button type="button" className="btn btn-primary ml-1"
-                key={cabinet.id} onClick={(e) => this.addCabinetToPhone(this.props.editedPhone, cabinet) }>{cabinet.cabinetNumber}</button>;
+                key={cabinet.id} onClick={(e) => this.addCabinetToPhone(this.props.editedPhone, cabinet.id)}>{cabinet.cabinetNumber}</button>;
         });
 
         return (
@@ -69,7 +65,9 @@ export default class PhoneCabinetsTable extends React.Component {
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
+                        <td>
+                               
+                        </td>
                         <td>
                             <div className="btn-group btn-group-lg mx-auto" role="group" aria-label="Basic example">
                                 {cabinetList}

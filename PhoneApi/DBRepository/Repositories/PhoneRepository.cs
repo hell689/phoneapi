@@ -15,7 +15,6 @@ namespace PhoneApi.DBRepository.Repositories
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                //var result =
                 context.Phones.Add(phone);
                 await context.SaveChangesAsync();
             }
@@ -43,6 +42,23 @@ namespace PhoneApi.DBRepository.Repositories
             {
                 var phone = new Phone() { Id = phoneId };
                 context.Phones.Remove(phone);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddCabinetToPhone(Phone phone, Cabinet cabinet)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                CabinetPhone cabinetPhone = new CabinetPhone();
+                cabinetPhone.Cabinet = cabinet;
+                cabinetPhone.CabinetId = cabinet.Id;
+                cabinetPhone.Phone = phone;
+                cabinetPhone.PhoneId = phone.Id;
+                phone.CabinetPhones.Add(cabinetPhone);
+                cabinet.CabinetPhones.Add(cabinetPhone);
+                context.Phones.Update(phone);
+                context.Cabinets.Update(cabinet);
                 await context.SaveChangesAsync();
             }
         }
