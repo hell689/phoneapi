@@ -1,11 +1,28 @@
 ﻿import React from 'react';
 
+function ShowCabinets(props) {
+
+    /*if (props.cabinetList.lenght = 0) {
+        return null;
+    }*/
+
+    const cabinets = props.cabinetList.map((cabinet, index) => {
+        <button type="button" className="btn btn-secondary">{cabinet.CabinetNumber}</button>
+    });
+
+    return <div className="btn-group-vertical" role="group" aria-label="Basic example">
+        {cabinets}
+     </div>;
+}
+
 export default class Phone extends React.Component {
     constructor() {
         super();
         this.state = {
-            phones: [],//{ id: 1, phoneNumber: "22-22-22" }, { id: 2, phoneNumber: "33-33-33" }]
-            newPhone: ""
+            phones: [],
+            newPhone: "",
+            cabinets: [],
+            showAddPhoneToCabinets: false,
         };
     }
 
@@ -67,19 +84,39 @@ export default class Phone extends React.Component {
             );
     }
 
+    addPhoneToCabinets(phoneId) {
+        fetch(window.constants.cabinets)
+            .then((response) => {
+                return response.json();
+            }).then((data) => {
+                this.setState({
+                    cabinets: data,
+                    showAddPhoneToCabinets: true
+                });
+            }
+        )
+    }
+
     render() {
-        const list = this.state.phones.map((phone, index) => {
-            return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
+        const phoneList = this.state.phones.map((phone, index) => {
+            return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}
+                onClick={(e) => this.addPhoneToCabinets(phone.id, this)} >
                     {phone.phoneNumber}
                 <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
                 </li>;
         });
+
+        const cabinets = this.state.cabinets.map((cabinet, index) => {
+            <button type="button" className="btn btn-secondary">{cabinet.cabinetNumber}</button>;
+        });
+
         return (
             <div>
                 <h2>Телефоны</h2>
                 <ul className="list-group">
-                    {list}
+                    {phoneList}
                 </ul>
+
                 <form onSubmit={this.addPhone.bind(this)}>
                     <div className="form-group">
                         <label>Новый телефон</label>
@@ -90,6 +127,12 @@ export default class Phone extends React.Component {
 
                     <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
+
+                <div className="btn-group-vertical" role="group" aria-label="Basic example">
+                    {cabinets}
+                </div>
+           
+                
 
             </div>
         );
