@@ -1,20 +1,6 @@
 ﻿import React from 'react';
 import Spinner from './spinner.jsx';
-
-function ShowCabinets(props) {
-
-    /*if (props.cabinetList.lenght = 0) {
-        return null;
-    }*/
-
-    const cabinets = props.cabinetList.map((cabinet, index) => {
-        <button type="button" className="btn btn-secondary">{cabinet.CabinetNumber}</button>
-    });
-
-    return <div className="btn-group-vertical" role="group" aria-label="Basic example">
-        {cabinets}
-     </div>;
-}
+import PhoneCabinetsTable from './phoneCabinetsTable.jsx';
 
 export default class Phone extends React.Component {
     constructor() {
@@ -24,6 +10,7 @@ export default class Phone extends React.Component {
             newPhone: "",
             cabinets: [],
             showAddPhoneToCabinets: false,
+            editedPhone: {},
             isLoading: false,
         };
     }
@@ -91,30 +78,41 @@ export default class Phone extends React.Component {
         );
     }
 
-    addPhoneToCabinets(phoneId) {
-        fetch(window.constants.cabinets)
-            .then((response) => {
+    addCabinetToPhone(phone, cabinet) {
+        alert(phone.phoneNumber + "  /  " + cabinet.cabinetNumber);
+        /*fetch(window.constants.phones, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                phoneNumber: this.state.newPhone,
+            })
+        })
+            .then(function (response) {
                 return response.json();
             }).then((data) => {
-                this.setState({
-                    cabinets: data,
-                    showAddPhoneToCabinets: true
-                });
+                this.getPhones(),
+                    this.setState({ newPhone: "" });
             }
-        )
+            );*/
+        event.preventDefault();
+    }
+
+    clickPhone(phone) {
+        this.setState({
+            editedPhone: phone,
+            showAddPhoneToCabinets: true
+        });
     }
 
     render() {
         const phoneList = this.state.phones.map((phone, index) => {
             return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}
-                onClick={(e) => this.addPhoneToCabinets(phone.id, this)} >
-                    {phone.phoneNumber}
+                onClick={(e) => this.clickPhone(phone, this)} >
+                {phone.phoneNumber}
                 <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deletePhone(phone.id, this)}>X</button>
                 </li>;
-        });
-
-        const cabinets = this.state.cabinets.map((cabinet, index) => {
-            <button type="button" className="btn btn-secondary">{cabinet.cabinetNumber}</button>;
         });
 
         return (
@@ -138,9 +136,9 @@ export default class Phone extends React.Component {
                     <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
 
-                <div className="btn-group-vertical" role="group" aria-label="Basic example">
-                    {cabinets}
-                </div>
+                <PhoneCabinetsTable showTable={this.state.showAddPhoneToCabinets}
+                    cabinets={this.state.cabinets} editedPhone={this.state.editedPhone}
+                    addCabinetToPhone={this.addCabinetToPhone} />
 
             </div>
         );
