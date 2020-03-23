@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import Spinner from './spinner.jsx';
 
 function ShowCabinets(props) {
 
@@ -23,14 +24,18 @@ export default class Phone extends React.Component {
             newPhone: "",
             cabinets: [],
             showAddPhoneToCabinets: false,
+            isLoading: false,
         };
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true });
         this.getPhones();  
+        this.setState({ isLoading: false });
     }
 
     getPhones() {
+        
         fetch(window.constants.phones)
             .then((response) => {
                 return response.json();
@@ -50,6 +55,7 @@ export default class Phone extends React.Component {
     }
 
     addPhone(event) {
+        this.setState({ isLoading: true });
         fetch(window.constants.phones, {
             method: "POST",
             headers: {
@@ -62,14 +68,15 @@ export default class Phone extends React.Component {
             .then(function (response) {
                 return response.json();
             }).then((data) => {
-                this.getPhones();
-                this.setState({ newPhone: "" })
+                this.getPhones()
             }
             );
+        this.setState({ isLoading: false });
         event.preventDefault(); 
     }
 
     deletePhone(idForDelete) {
+        this.setState({ isLoading: true });
         fetch(window.constants.phones + "/" + idForDelete, {
             method: "DELETE",
             headers: {
@@ -80,8 +87,10 @@ export default class Phone extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.getPhones();
+
             }
-            );
+        );
+        this.setState({ isLoading: false });
     }
 
     addPhoneToCabinets(phoneId) {
@@ -113,6 +122,9 @@ export default class Phone extends React.Component {
         return (
             <div>
                 <h2>Телефоны</h2>
+
+                <Spinner loading={this.state.isLoading} />
+
                 <ul className="list-group">
                     {phoneList}
                 </ul>
@@ -131,8 +143,6 @@ export default class Phone extends React.Component {
                 <div className="btn-group-vertical" role="group" aria-label="Basic example">
                     {cabinets}
                 </div>
-           
-                
 
             </div>
         );

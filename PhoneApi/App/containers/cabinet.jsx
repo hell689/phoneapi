@@ -1,16 +1,20 @@
 ﻿import React from 'react';
+import Spinner from './spinner.jsx';
 
 export default class Cabinet extends React.Component {
     constructor() {
         super();
         this.state = {
             cabinets: [],
-            newCabinet: ""
+            newCabinet: "",
+            isLoading: false,
         };
     }
 
     componentDidMount() {
-        this.getCabinets();  
+        this.setState({ isLoading: true });
+        this.getCabinets(); 
+        this.setState({ isLoading: false });
     }
 
     getCabinets() {
@@ -33,26 +37,31 @@ export default class Cabinet extends React.Component {
     }
 
     addCabinet(event) {
-        fetch(window.constants.cabinets, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                CabinetNumber: this.state.newCabinet,
+        this.setState({ isLoading: true });
+        if (this.state.newCabinet.length > 0) {
+            fetch(window.constants.cabinets, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    CabinetNumber: this.state.newCabinet,
+                })
             })
-        })
-            .then(function (response) {
-                return response.json();
-            }).then((data) => {
-                this.getCabinets();
-                this.setState({ newCabinet: "" })
-            }
-            );
+                .then(function (response) {
+                    return response.json();
+                }).then((data) => {
+                    this.getCabinets();
+                    this.setState({ newCabinet: "" })
+                }
+                );
+        }
+        this.setState({ isLoading: false });
         event.preventDefault(); 
     }
 
     deleteCabinet(idForDelete) {
+        this.setState({ isLoading: true });
         fetch(window.constants.cabinets + "/" + idForDelete, {
             method: "DELETE",
             headers: {
@@ -64,7 +73,8 @@ export default class Cabinet extends React.Component {
             }).then((data) => {
                 this.getCabinets();
             }
-            );
+        );
+        this.setState({ isLoading: false });
     }
 
     render() {
@@ -77,6 +87,9 @@ export default class Cabinet extends React.Component {
         return (
             <div>
                 <h2>Список кабинетов</h2>
+
+                <Spinner loading={this.state.isLoading} />
+
                 <ul className="list-group">
                     {list}
                 </ul>
