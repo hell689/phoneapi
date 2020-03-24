@@ -44,5 +44,10 @@ namespace PhoneApi.Services
         {
             await _repository.AddCabinetToPhone(phone, cabinet);
         }
+
+        public async Task DeleteCabinetFromPhone(Phone phone, Cabinet cabinet)
+        {
+            await _repository.DeleteCabinetFromPhone(phone, cabinet);
+        }
     }
 }

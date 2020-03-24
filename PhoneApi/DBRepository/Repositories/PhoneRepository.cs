@@ -86,5 +86,14 @@ namespace PhoneApi.DBRepository.Repositories
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteCabinetFromPhone(Phone phone, Cabinet cabinet)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                context.Database.ExecuteSqlRaw("DELETE FROM CabinetPhone WHERE CabinetId={0} AND PhoneId={1}", cabinet.Id, phone.Id);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

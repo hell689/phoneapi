@@ -64,5 +64,18 @@ namespace PhoneApi.Controllers
             await phoneService.DeletePhone(id);
             return Ok(phone);
         }
+
+        [HttpDelete("{phoneId}/{cabinetId}")]
+        public async Task<ActionResult<Phone>> DeleteCabinetFromPhone(int phoneId, int cabinetId)
+        {
+            Phone phone = await phoneService.GetPhone(phoneId);
+            Cabinet cabinet = await cabinetService.GetCabinet(cabinetId);
+            if (phone == null)
+            {
+                return BadRequest();
+            }
+            await phoneService.DeleteCabinetFromPhone(phone, cabinet);
+            return Ok(phone);
+        }
     }
 }
