@@ -48,7 +48,18 @@ namespace PhoneApi.DBRepository.Repositories
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return await context.Phones.FirstOrDefaultAsync(p => p.Id == phoneId);
+                Phone phone = await context.Phones.FirstOrDefaultAsync(p => p.Id == phoneId);
+                List<Cabinet> cabinets = new List<Cabinet>();
+                List<CabinetPhone> cabinetPhones = context.CabinetPhones.FromSqlRaw("SELECT phoneId, cabinetId FROM CabinetPhone WHERE phoneId = {0}", phone.Id).ToList();
+                foreach (var cabinetPhone in cabinetPhones)
+                {
+                    Cabinet cabinet = context.Cabinets.FirstOrDefault(c => c.Id == cabinetPhone.CabinetId);
+                    cabinet.CabinetPhones = new List<CabinetPhone>();
+                    cabinets.Add(cabinet);
+                }
+                phone.CabinetPhones = new List<CabinetPhone>();
+                phone.Cabinets = cabinets;
+                return phone;
             }
         }
 
