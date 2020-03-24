@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace PhoneApi.DBRepository.Repositories
 {
@@ -24,7 +25,22 @@ namespace PhoneApi.DBRepository.Repositories
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return context.Phones.ToList();
+                List<Phone> phones = context.Phones.ToList();
+                foreach (Phone phone in phones)
+                {
+                    List<Cabinet> cabinets = new List<Cabinet>();
+                    List<CabinetPhone> cabinetPhones = context.CabinetPhones.FromSqlRaw("SELECT phoneId, cabinetId FROM CabinetPhone WHERE phoneId = {0}", phone.Id).ToList();
+                    foreach (var cabinetPhone in cabinetPhones)
+                    {
+                        Cabinet cabinet = context.Cabinets.FirstOrDefault(c => c.Id == cabinetPhone.CabinetId);
+                        cabinet.CabinetPhones = new List<CabinetPhone>();
+                        cabinets.Add(cabinet);
+                    }
+                    phone.CabinetPhones = new List<CabinetPhone>();
+                    phone.Cabinets = cabinets;
+                        
+                }
+                return phones;
             }
         }
 

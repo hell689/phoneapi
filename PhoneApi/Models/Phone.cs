@@ -12,11 +12,14 @@ namespace PhoneApi.Models
         public string PhoneNumber { get; set; }
         public ICollection<CabinetPhone> CabinetPhones { get; set; }
         public ICollection<EmployeePhone> EmployeePhones { get; set; }
+        [NotMapped]
+        public ICollection<Cabinet> Cabinets { get; set; }
 
         public Phone()
         {
             CabinetPhones = new List<CabinetPhone>();
             EmployeePhones = new List<EmployeePhone>();
+            Cabinets = new List<Cabinet>();
         }
     }
 }

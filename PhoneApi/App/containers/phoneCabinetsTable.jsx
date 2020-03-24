@@ -38,10 +38,7 @@ export default class PhoneCabinetsTable extends React.Component {
         })
             .then(function (response) {
                 return response.json();
-            }).then((data) => {                
-
-            }
-            );
+            });
         event.preventDefault();
     }
 
