@@ -30,9 +30,11 @@ namespace PhoneApi
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<ICabinetRepository>(provider => new CabinetRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddScoped<IEmployeeRepository>(provider => new EmployeeRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IPhoneService, PhoneService>();
             services.AddScoped<ICabinetService, CabinetService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
