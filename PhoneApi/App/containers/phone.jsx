@@ -2,6 +2,16 @@
 import Spinner from './spinner.jsx';
 import PhoneCabinetsTable from './phoneCabinetsTable.jsx';
 
+function ShowTable(props) {
+    const isShow = props.showTable;
+    if (isShow) {
+        return <PhoneCabinetsTable showTable={props.showTable}
+            cabinets={props.cabinets} editedPhone={props.editedPhone}
+            clickCloseTable={props.clickCloseTable} />;
+    }
+    return <div></div>;
+}
+
 export default class Phone extends React.Component {
     constructor() {
         super();
@@ -11,8 +21,10 @@ export default class Phone extends React.Component {
             cabinets: [],
             showAddPhoneToCabinets: false,
             editedPhone: {},
+            //phoneCabinets: null,
             isLoading: false,
         };
+        this.clickCloseTable = this.clickCloseTable.bind(this);
     }
 
     componentDidMount() {
@@ -78,32 +90,31 @@ export default class Phone extends React.Component {
         );
     }
 
-    addCabinetToPhone(phone, cabinet) {
-        alert(phone.phoneNumber + "  /  " + cabinet.cabinetNumber);
-        /*fetch(window.constants.phones, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                phoneNumber: this.state.newPhone,
-            })
-        })
-            .then(function (response) {
+    getPhoneCabinets(phoneId) {
+        fetch(window.constants.phones + "/" + phoneId)
+            .then((response) => {
                 return response.json();
             }).then((data) => {
-                this.getPhones(),
-                    this.setState({ newPhone: "" });
+                this.setState({
+                    phoneCabinets: data.cabinets
+                });
             }
-            );*/
-        event.preventDefault();
+            )
     }
 
     clickPhone(phone) {
+        this.clickCloseTable();
         this.setState({
             editedPhone: phone,
-            showAddPhoneToCabinets: true
-        });
+            showAddPhoneToCabinets: true            
+        });        
+    }
+
+    clickCloseTable() {
+        this.setState({
+            editedPhone: {},
+            showAddPhoneToCabinets: false
+        });   
     }
 
     render() {
@@ -136,9 +147,9 @@ export default class Phone extends React.Component {
                     <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
 
-                <PhoneCabinetsTable showTable={this.state.showAddPhoneToCabinets}
+                <ShowTable showTable={this.state.showAddPhoneToCabinets}
                     cabinets={this.state.cabinets} editedPhone={this.state.editedPhone}
-                    addCabinetToPhone={this.addCabinetToPhone} />
+                    clickCloseTable={this.clickCloseTable} />
 
             </div>
         );
