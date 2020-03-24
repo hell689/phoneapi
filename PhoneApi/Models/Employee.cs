@@ -13,10 +13,13 @@ namespace PhoneApi.Models
         public string Surname { get; set; }
         public string Patronymic { get; set; }
         public ICollection<EmployeePhone> EmployeePhones { get; set; }
+        [NotMapped]
+        public ICollection<Phone> Phones { get; set; }
 
         public Employee()
         {
             EmployeePhones = new List<EmployeePhone>();
+            Phones = new List<Phone>();
         }
     }
 }
