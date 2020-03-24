@@ -55,10 +55,7 @@ namespace PhoneApi.DBRepository.Repositories
                 cabinetPhone.CabinetId = cabinet.Id;
                 cabinetPhone.Phone = phone;
                 cabinetPhone.PhoneId = phone.Id;
-                phone.CabinetPhones.Add(cabinetPhone);
-                cabinet.CabinetPhones.Add(cabinetPhone);
-                context.Phones.Update(phone);
-                context.Cabinets.Update(cabinet);
+                context.Database.ExecuteSqlRaw("INSERT INTO CabinetPhone (CabinetId, PhoneId) VALUES ({0}, {1})", cabinetPhone.CabinetId, cabinetPhone.PhoneId);
                 await context.SaveChangesAsync();
             }
         }
