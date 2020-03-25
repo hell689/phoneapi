@@ -27,6 +27,7 @@ export default class Employee extends React.Component {
             editedEmployee: {},
             isLoading: false,
         };
+        this.clickCloseTable = this.clickCloseTable.bind(this);
     }
 
     componentDidMount() {
@@ -90,7 +91,11 @@ export default class Employee extends React.Component {
                     return response.json();
                 }).then((data) => {
                     this.getEmployees();
-                    this.setState({ newEmployee: "" })
+                    this.setState({
+                        newName: "",
+                        newSurname: "",
+                        newPatronymic: ""
+                    })
                 }
                 );
         }

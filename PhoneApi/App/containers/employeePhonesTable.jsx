@@ -6,12 +6,12 @@ function EmployeePhoneList(props) {
     }
 
     const employeePhoneList = props.employeePhones.map((phone) => {
-        return <button type="button" className="btn btn-primary ml-1"
+        return <button type="button" className="btn btn-primary mt-1"
             key={phone.id} onClick={(e) => props.parent.removePhonefromEmployee(props.editedEmployee, phone.id, props.parent)}>{phone.phoneNumber}</button>;
     });
 
     return (
-        <div className="btn-group btn-group-lg mx-auto" role="group" aria-label="Basic example">
+        <div className="btn-group-vertical btn-group-lg mx-auto" role="group" aria-label="Basic example">
             {employeePhoneList}
         </div>
     );
@@ -122,10 +122,9 @@ export default class employeePhonesTable extends React.Component {
                                 </div>
                             </td>
                         </tr>
-
+                        <button className="btn btn-primary" onClick={this.props.clickCloseTable}>Закрыть</button>
                     </tbody>
-                </table>
-                <button className="btn btn-primary" onClick={this.props.clickCloseTable}>Закрыть</button>
+                </table>                
             </div>
         );
     }
