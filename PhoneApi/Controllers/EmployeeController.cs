@@ -64,5 +64,18 @@ namespace PhoneApi.Controllers
             Employee employee = await employeeService.GetEmployee(employeeId);
             await employeeService.AddEmployeeToPhone(phone, employee);
         }
+
+        [HttpDelete("{employeeId}/{phoneId}")]
+        public async Task<ActionResult<Employee>> DeleteCabinetFromPhone(int employeeId, int phoneId)
+        {
+            Phone phone = await phoneService.GetPhone(phoneId);
+            Employee employee = await employeeService.GetEmployee(employeeId);
+            if (employee == null)
+            {
+                return BadRequest();
+            }
+            await employeeService.DeletePhoneFromEmployee(employee, phone);
+            return Ok(employee);
+        }
     }
 }

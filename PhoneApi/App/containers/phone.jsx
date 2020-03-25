@@ -6,8 +6,8 @@ function ShowTable(props) {
     const isShow = props.showTable;
     if (isShow) {
         return <PhoneCabinetsTable showTable={props.showTable}
-            cabinets={props.cabinets} editedPhone={props.editedPhone}
-            clickCloseTable={props.clickCloseTable} />;
+                cabinets={props.cabinets} editedPhone={props.editedPhone}
+                clickCloseTable={props.clickCloseTable} />;
     }
     return <div></div>;
 }
