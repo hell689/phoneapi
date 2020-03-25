@@ -6,7 +6,7 @@ function EmployeePhoneList(props) {
     }
 
     const employeePhoneList = props.employeePhones.map((phone) => {
-        return <button type="button" className="btn btn-primary mt-1"
+        return <button type="button" className="btn btn-outline-primary m-1"
             key={phone.id} onClick={(e) => props.parent.removePhonefromEmployee(props.editedEmployee, phone.id, props.parent)}>{phone.phoneNumber}</button>;
     });
 
@@ -70,10 +70,13 @@ export default class employeePhonesTable extends React.Component {
             })
         })
             .then(function (response) {
-
-            });
+                return {x: 1};
+            }).then((data) => {
+                this.getEmployeePhones(employee.id);
+            }
+            );
         event.preventDefault();
-        this.getEmployeePhones(this.props.editedEmployee.id);
+        
     }
 
     removePhonefromEmployee(employee, phoneId) {
@@ -122,9 +125,9 @@ export default class employeePhonesTable extends React.Component {
                                 </div>
                             </td>
                         </tr>
-                        <button className="btn btn-primary" onClick={this.props.clickCloseTable}>Закрыть</button>
                     </tbody>
                 </table>                
+                <button className="btn btn-primary" onClick={this.props.clickCloseTable}>Закрыть</button>
             </div>
         );
     }

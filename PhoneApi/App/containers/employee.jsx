@@ -6,7 +6,6 @@ function ShowTable(props) {
     const isShow = props.showTable;
 
     if (isShow) {
-        alert(props.editedEmployee.surname);
         return <EmployeePhonesTable showTable={props.showTable}
             phones={props.phones} editedEmployee={props.editedEmployee}
             clickCloseTable={props.clickCloseTable} />;
