@@ -1,5 +1,18 @@
 ﻿import React from 'react';
 import Spinner from './spinner.jsx';
+import EmployeePhonesTable from './employeePhonesTable.jsx';
+
+function ShowTable(props) {
+    const isShow = props.showTable;
+
+    if (isShow) {
+        alert(props.editedEmployee.surname);
+        return <EmployeePhonesTable showTable={props.showTable}
+            phones={props.phones} editedEmployee={props.editedEmployee}
+            clickCloseTable={props.clickCloseTable} />;
+    }
+    return <div></div>;
+}
 
 export default class Employee extends React.Component {
     constructor() {
@@ -9,6 +22,9 @@ export default class Employee extends React.Component {
             newName: "",
             newSurname: "",
             newPatronymic: "",
+            phones: [],
+            showAddPhoneToEmployee: false,
+            editedEmployee: {},
             isLoading: false,
         };
     }
@@ -97,9 +113,24 @@ export default class Employee extends React.Component {
             );
     }
 
+    clickEmployee(employee) {
+        this.setState({
+            editedEmployee: employee,
+            showAddPhoneToEmployee: true
+        });
+    }
+
+    clickCloseTable() {
+        this.setState({
+            editedEmployee: {},
+            showAddPhoneToEmployee: false
+        });
+    }
+
     render() {
         const list = this.state.employees.map((employee, index) => {
-            return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
+            return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}
+                onClick={(e) => this.clickEmployee(employee, this)}>
                 {employee.surname + "  " + employee.name + "  " + employee.patronymic}
                 <button className="btn badge badge-primary badge-pill" onClick={(e) => this.deleteEmployee(employee.id, this)}>X</button>
             </li>;
@@ -129,6 +160,10 @@ export default class Employee extends React.Component {
 
                     <button type="submit" className="btn btn-primary">Добавить</button>
                 </form>
+
+                <ShowTable showTable={this.state.showAddPhoneToEmployee}
+                    phones={this.state.phones} editedEmployee={this.state.editedEmployee}
+                    clickCloseTable={this.clickCloseTable} />
 
             </div>
         );

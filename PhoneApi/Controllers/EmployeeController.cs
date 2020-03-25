@@ -57,8 +57,8 @@ namespace PhoneApi.Controllers
             return Ok(employee);
         }
 
-        [HttpPost("{phoneId}/{cabinetId}")]
-        public async Task AddEmployeeToPhone(int phoneId, int employeeId)
+        [HttpPost("{employeeId}/{phoneId}")]
+        public async Task AddEmployeeToPhone(int employeeId, int phoneId)
         {
             Phone phone = await phoneService.GetPhone(phoneId);
             Employee employee = await employeeService.GetEmployee(employeeId);

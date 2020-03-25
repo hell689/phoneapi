@@ -21,7 +21,6 @@ export default class Phone extends React.Component {
             cabinets: [],
             showAddPhoneToCabinets: false,
             editedPhone: {},
-            //phoneCabinets: null,
             isLoading: false,
         };
         this.clickCloseTable = this.clickCloseTable.bind(this);
