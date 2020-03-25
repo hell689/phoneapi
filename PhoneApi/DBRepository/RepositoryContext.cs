@@ -20,6 +20,8 @@ namespace PhoneApi.DBRepository
 
         public DbSet<CabinetPhone> CabinetPhones { get; set; }
 
+        public DbSet<EmployeePhone> EmployeePhones { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CabinetPhone>()

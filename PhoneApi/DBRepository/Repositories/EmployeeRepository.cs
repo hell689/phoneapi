@@ -1,4 +1,5 @@
-﻿using PhoneApi.DBRepository.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PhoneApi.DBRepository.Interfaces;
 using PhoneApi.Models;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,16 @@ namespace PhoneApi.DBRepository.Repositories
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
                 return context.Employees.FirstOrDefault(c => c.Id == employeeId);
+            }
+        }
+
+        public async Task AddEmployeeToPhone(Phone phone, Employee employee)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+
+                context.Database.ExecuteSqlRaw("INSERT INTO EmployeePhone (EmployeeId, PhoneId) VALUES ({0}, {1})", employee.Id, phone.Id);
+                await context.SaveChangesAsync();
             }
         }
 

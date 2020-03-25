@@ -13,10 +13,12 @@ namespace PhoneApi.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
+        private readonly IPhoneService phoneService;
 
-        public EmployeeController(IEmployeeService service)
+        public EmployeeController(IPhoneService phoneService, IEmployeeService service)
         {
             employeeService = service;
+            this.phoneService = phoneService;
         }
 
         [HttpGet]
@@ -53,6 +55,14 @@ namespace PhoneApi.Controllers
             }
             await employeeService.DeleteEmployee(id);
             return Ok(employee);
+        }
+
+        [HttpPost("{phoneId}/{cabinetId}")]
+        public async Task AddEmployeeToPhone(int phoneId, int employeeId)
+        {
+            Phone phone = await phoneService.GetPhone(phoneId);
+            Employee employee = await employeeService.GetEmployee(employeeId);
+            await employeeService.AddEmployeeToPhone(phone, employee);
         }
     }
 }

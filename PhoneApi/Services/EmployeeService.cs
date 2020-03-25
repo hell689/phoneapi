@@ -41,5 +41,10 @@ namespace PhoneApi.Services
         {
             await _repository.DeleteEmployee(Id);
         }
+
+        public async Task AddEmployeeToPhone(Phone phone, Employee employee)
+        {
+            await _repository.AddEmployeeToPhone(phone, employee);
+        }
     }
 }

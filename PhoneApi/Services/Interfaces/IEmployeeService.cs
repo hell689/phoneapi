@@ -11,6 +11,7 @@ namespace PhoneApi.Services.Interfaces
         Task<Employee> GetEmployee(int id);
         Task AddEmployee(Employee employee);
         Task<List<Employee>> GetAllEmployees();
+        Task AddEmployeeToPhone(Phone phone, Employee employee);
         Task DeleteEmployee(int Id);
     }
 }
