@@ -14,11 +14,13 @@ namespace PhoneApi.Services
 
         IEmployeeRepository _repository;
         IConfiguration _config;
+        IPhoneService _phoneService;
 
-        public EmployeeService(IEmployeeRepository repository, IConfiguration configuration)
+        public EmployeeService(IEmployeeRepository repository, IConfiguration configuration, IPhoneService phoneService)
         {
             _repository = repository;
             _config = configuration;
+            _phoneService = phoneService;
         }
         public async Task AddEmployee(Employee employee)
         {
@@ -27,8 +29,16 @@ namespace PhoneApi.Services
 
         public async Task<List<Employee>> GetAllEmployees()
         {
-            var cabinets = await _repository.GetAllEmployees();
-            return cabinets;
+            var employees = await _repository.GetAllEmployees();
+            foreach (Employee employee in employees)
+            {
+                foreach (Phone phone in employee.Phones)
+                {
+                    Phone _phone = await _phoneService.GetPhone(unchecked((int)phone.Id));
+                    phone.Cabinets = _phone.Cabinets;
+                }
+            }
+            return employees;
         }
 
         public async Task<Employee> GetEmployee(int Id)
