@@ -64,6 +64,10 @@ namespace PhoneApi
                     pattern: "api/cabinet/{id?}",
                     defaults: new { controller = "Cabinet" });
                 endpoints.MapControllerRoute(
+                    name: "EmployeeApi",
+                    pattern: "api/employee/{id?}",
+                    defaults: new { controller = "Employee" });
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "",
                     defaults: new { controller = "Home", action = "Index" });
