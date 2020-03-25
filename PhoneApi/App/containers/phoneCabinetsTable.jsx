@@ -71,11 +71,12 @@ export default class PhoneCabinetsTable extends React.Component {
             })
         })
             .then(function (response) {
-                
-                //return response.json();
-            });
+                return { x: 1 };
+            }).then((data) => {
+                this.getPhoneCabinets(phone.id);
+            }
+            );
         event.preventDefault();
-        this.getPhoneCabinets(this.props.editedPhone.id);
     }
 
     removeCabinetfromPhone(phone, cabinetId) {
