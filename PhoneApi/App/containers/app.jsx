@@ -6,6 +6,7 @@ import About from './about.jsx';
 import Phone from './phone.jsx';
 import Cabinet from './cabinet.jsx';
 import Home from './home.jsx';
+import Employee from './employee.jsx';
 
 export default class App extends React.Component {
     render() {
@@ -18,6 +19,7 @@ export default class App extends React.Component {
                             <Route path="/about" component={About} />
                             <Route path="/phone" component={Phone} />
                             <Route path="/cabinet" component={Cabinet} />
+                            <Route path="/employee" component={Employee} />
                             <Route path="/" component={Home} />
                         </Switch>
                     </div>
