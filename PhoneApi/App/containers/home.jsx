@@ -81,12 +81,11 @@ export default class Home extends React.Component {
                             <th scope="col">Телефон</th>
                         </tr>
                     </thead>
-                    <Spinner loading={this.state.isLoading} />
                     <tbody>
                         {catalogRow}
                     </tbody>
                 </table>
-
+                <Spinner loading={this.state.isLoading} />
             </div>
         );
     }
