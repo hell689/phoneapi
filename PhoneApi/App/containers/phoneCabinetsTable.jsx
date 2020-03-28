@@ -31,7 +31,6 @@ export default class PhoneCabinetsTable extends React.Component {
     }
 
     componentDidMount() {
-        this.getCabinets(); 
         this.getPhoneCabinets(this.props.editedPhone.id);
     }
 
@@ -41,7 +40,7 @@ export default class PhoneCabinetsTable extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    cabinets: data                    
+                    cabinets: data.filter(x => this.state.phoneCabinets.filter(y => y.id == x.id).length == 0)                    
                 });
             }
             )
@@ -55,6 +54,8 @@ export default class PhoneCabinetsTable extends React.Component {
                 this.setState({
                     phoneCabinets: data.cabinets
                 });
+
+                this.getCabinets();
             }
             )
     }
@@ -92,13 +93,10 @@ export default class PhoneCabinetsTable extends React.Component {
             }).then((data) => {
                 this.getPhoneCabinets(phone.id);
             }
-            );
+        );
     }
 
     render() {
-        /*if (!this.props.showTable) {
-            return null;
-        }*/
         
         const cabinetList = this.state.cabinets.map((cabinet) => {
             return <button type="button" className="btn btn-primary ml-1"

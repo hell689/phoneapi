@@ -30,7 +30,6 @@ export default class employeePhonesTable extends React.Component {
     }
 
     componentDidMount() {
-        this.getPhones();
         this.getEmployeePhones(this.props.editedEmployee.id);
     }
 
@@ -40,7 +39,7 @@ export default class employeePhonesTable extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    phones: data
+                    phones: data.filter(x => this.state.employeePhones.filter(y => y.id == x.id).length == 0)
                 });
             }
             )
@@ -54,6 +53,7 @@ export default class employeePhonesTable extends React.Component {
                 this.setState({
                     employeePhones: data.phones
                 });
+                this.getPhones();
             }
             )
     }
