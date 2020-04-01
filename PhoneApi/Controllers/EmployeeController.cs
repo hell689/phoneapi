@@ -13,12 +13,12 @@ namespace PhoneApi.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService employeeService;
-        private readonly IPhoneService phoneService;
+        private readonly ICabinetPhoneService cabinetPhoneService;
 
-        public EmployeeController(IPhoneService phoneService, IEmployeeService service)
+        public EmployeeController(ICabinetPhoneService cabinetPhoneService, IEmployeeService service)
         {
             employeeService = service;
-            this.phoneService = phoneService;
+            this.cabinetPhoneService = cabinetPhoneService;
         }
 
         [HttpGet]
@@ -57,24 +57,24 @@ namespace PhoneApi.Controllers
             return Ok(employee);
         }
 
-        [HttpPost("{employeeId}/{phoneId}")]
-        public async Task AddEmployeeToPhone(int employeeId, int phoneId)
+        [HttpPost("{employeeId}/{cabinetPhoneId}")]
+        public async Task AddEmployeeToPhone(int employeeId, int cabinetPhoneId)
         {
-            Phone phone = await phoneService.GetPhone(phoneId);
+            CabinetPhone cabinetPhone = await cabinetPhoneService.GetCabinetPhone(cabinetPhoneId);
             Employee employee = await employeeService.GetEmployee(employeeId);
-            await employeeService.AddEmployeeToPhone(phone, employee);
+            await employeeService.AddEmployeeToPhone(cabinetPhone, employee);
         }
 
-        [HttpDelete("{employeeId}/{phoneId}")]
-        public async Task<ActionResult<Employee>> DeleteCabinetFromPhone(int employeeId, int phoneId)
+        [HttpDelete("{employeeId}/{cabinetPhoneId}")]
+        public async Task<ActionResult<Employee>> DeleteCabinetFromPhone(int employeeId, int cabinetPhoneId)
         {
-            Phone phone = await phoneService.GetPhone(phoneId);
+            CabinetPhone cabinetPhone = await cabinetPhoneService.GetCabinetPhone(cabinetPhoneId);
             Employee employee = await employeeService.GetEmployee(employeeId);
             if (employee == null)
             {
                 return BadRequest();
             }
-            await employeeService.DeletePhoneFromEmployee(employee, phone);
+            await employeeService.DeletePhoneFromEmployee(employee, cabinetPhone);
             return Ok(employee);
         }
     }

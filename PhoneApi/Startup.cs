@@ -34,6 +34,7 @@ namespace PhoneApi
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IPhoneService, PhoneService>();
             services.AddScoped<ICabinetService, CabinetService>();
+            services.AddScoped<ICabinetPhoneService, CabinetPhoneService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
         }
 
