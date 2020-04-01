@@ -27,16 +27,16 @@ namespace PhoneApi.DBRepository.Repositories
                 List<Employee> employees = context.Employees.ToList();
                 foreach (Employee employee in employees)
                 {
-                    List<Phone> phones = new List<Phone>();
-                    List<EmployeePhone> employeePhones = context.EmployeePhones.FromSqlRaw("SELECT employeeId, phoneId FROM EmployeePhone WHERE employeeId = {0}", employee.Id).ToList();
-                    foreach (var employeePhone in employeePhones)
+                    List<CabinetPhone> cabinetPhones = new List<CabinetPhone>();
+                    List<EmployeeCabinetPhone> employeeCabinetPhones = context.EmployeeCabinetPhones.FromSqlRaw("SELECT employeeId, cabinetPhoneId FROM EmployeeCabinetPhones WHERE employeeId = {0}", employee.Id).ToList();
+                    foreach (var employeeCabinetPhone in employeeCabinetPhones)
                     {
-                        Phone phone = context.Phones.FirstOrDefault(p => p.Id == employeePhone.PhoneId);
-                        phone.EmployeePhones = new List<EmployeePhone>();
-                        phones.Add(phone);
+                        CabinetPhone cabinetPhone = context.CabinetPhones.FirstOrDefault(p => p.Id == employeeCabinetPhone.CabinetPhoneId);
+                        cabinetPhone.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                        cabinetPhones.Add(cabinetPhone);
                     }
-                    employee.EmployeePhones = new List<EmployeePhone>();
-                    employee.Phones = phones;
+                    employee.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                    employee.CabinetPhones = cabinetPhones;
 
                 }
                 return employees;
@@ -49,27 +49,27 @@ namespace PhoneApi.DBRepository.Repositories
             {
                 Employee employee = context.Employees.FirstOrDefault(c => c.Id == employeeId);
 
-                List<Phone> phones = new List<Phone>();
-                List<EmployeePhone> employeePhones = context.EmployeePhones.FromSqlRaw("SELECT employeeId, phoneId FROM EmployeePhone WHERE employeeId = {0}", employee.Id).ToList();
-                foreach (var employeePhone in employeePhones)
+                List<CabinetPhone> cabinetPhones = new List<CabinetPhone>();
+                List<EmployeeCabinetPhone> employeeCabinetPhones = context.EmployeeCabinetPhones.FromSqlRaw("SELECT employeeId, cabinetPhoneId FROM EmployeeCabinetPhones WHERE employeeId = {0}", employee.Id).ToList();
+                foreach (var employeeCabinetPhone in employeeCabinetPhones)
                 {
-                    Phone phone = context.Phones.FirstOrDefault(p => p.Id == employeePhone.PhoneId);
-                    phone.EmployeePhones = new List<EmployeePhone>();
-                    phones.Add(phone);
+                    CabinetPhone cabinetPhone = context.CabinetPhones.FirstOrDefault(p => p.Id == employeeCabinetPhone.CabinetPhoneId);
+                    cabinetPhone.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                    cabinetPhones.Add(cabinetPhone);
                 }
-                employee.EmployeePhones = new List<EmployeePhone>();
-                employee.Phones = phones;
+                employee.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                employee.CabinetPhones = cabinetPhones;
 
                 return employee;
             }
         }
 
-        public async Task AddEmployeeToPhone(Phone phone, Employee employee)
+        public async Task AddEmployeeToPhone(CabinetPhone cabinetPhone, Employee employee)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
 
-                context.Database.ExecuteSqlRaw("INSERT INTO EmployeePhone (EmployeeId, PhoneId) VALUES ({0}, {1})", employee.Id, phone.Id);
+                context.Database.ExecuteSqlRaw("INSERT INTO EmployeeCabinetPhones (EmployeeId, CabinetPhoneId) VALUES ({0}, {1})", employee.Id, cabinetPhone.Id);
                 await context.SaveChangesAsync();
             }
         }
@@ -84,14 +84,15 @@ namespace PhoneApi.DBRepository.Repositories
             }
         }
 
-        public async Task DeletePhoneFromEmployee (Employee employee, Phone phone)
+        public async Task DeletePhoneFromEmployee (Employee employee, CabinetPhone cabinetPhone)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                context.Database.ExecuteSqlRaw("DELETE FROM EmployeePhone WHERE PhoneId={0} AND EmployeeId={1}", phone.Id, employee.Id);
+                context.Database.ExecuteSqlRaw("DELETE FROM EmployeeCabinetPhones WHERE CabinetPhoneId={0} AND EmployeeId={1}", cabinetPhone.Id, employee.Id);
                 await context.SaveChangesAsync();
             }
-        }
+            
     }
-
+    }
+    
 }

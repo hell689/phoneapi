@@ -11,8 +11,8 @@ namespace PhoneApi.DBRepository.Interfaces
         Task<Employee> GetEmployee(int employeeId);
         Task AddEmployee(Employee employee);
         Task<List<Employee>> GetAllEmployees();
-        Task AddEmployeeToPhone(Phone phone, Employee employee);
-        Task DeletePhoneFromEmployee(Employee employee, Phone phone);
+        Task AddEmployeeToPhone(CabinetPhone cabinetPhone, Employee employee);
+        Task DeletePhoneFromEmployee(Employee employee, CabinetPhone cabinetPhone);
         Task DeleteEmployee(int employeeId);
     }
 }

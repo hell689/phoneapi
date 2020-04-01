@@ -30,14 +30,14 @@ namespace PhoneApi.Services
         public async Task<List<Employee>> GetAllEmployees()
         {
             var employees = await _repository.GetAllEmployees();
-            foreach (Employee employee in employees)
+            /*foreach (Employee employee in employees)
             {
                 foreach (Phone phone in employee.Phones)
                 {
                     Phone _phone = await _phoneService.GetPhone(unchecked((int)phone.Id));
                     phone.Cabinets = _phone.Cabinets;
                 }
-            }
+            }*/
             return employees;
         }
 
@@ -52,14 +52,14 @@ namespace PhoneApi.Services
             await _repository.DeleteEmployee(Id);
         }
 
-        public async Task AddEmployeeToPhone(Phone phone, Employee employee)
+        public async Task AddEmployeeToPhone(CabinetPhone cabinetPhone, Employee employee)
         {
-            await _repository.AddEmployeeToPhone(phone, employee);
+            await _repository.AddEmployeeToPhone(cabinetPhone, employee);
         }
 
-        public async Task DeletePhoneFromEmployee(Employee employee, Phone phone)
+        public async Task DeletePhoneFromEmployee(Employee employee, CabinetPhone cabinetPhone)
         {
-            await _repository.DeletePhoneFromEmployee(employee, phone);
+            await _repository.DeletePhoneFromEmployee(employee, cabinetPhone);
         }
     }
 }
