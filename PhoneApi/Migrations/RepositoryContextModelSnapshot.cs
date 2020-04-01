@@ -31,17 +31,23 @@ namespace PhoneApi.Migrations
 
             modelBuilder.Entity("PhoneApi.Models.CabinetPhone", b =>
                 {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("CabinetId")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("PhoneId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("CabinetId", "PhoneId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CabinetId");
 
                     b.HasIndex("PhoneId");
 
-                    b.ToTable("CabinetPhone");
+                    b.ToTable("CabinetPhones");
                 });
 
             modelBuilder.Entity("PhoneApi.Models.Employee", b =>
@@ -64,19 +70,19 @@ namespace PhoneApi.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("PhoneApi.Models.EmployeePhone", b =>
+            modelBuilder.Entity("PhoneApi.Models.EmployeeCabinetPhone", b =>
                 {
                     b.Property<long>("EmployeeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("PhoneId")
+                    b.Property<long>("CabinetPhoneId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("EmployeeId", "PhoneId");
+                    b.HasKey("EmployeeId", "CabinetPhoneId");
 
-                    b.HasIndex("PhoneId");
+                    b.HasIndex("CabinetPhoneId");
 
-                    b.ToTable("EmployeePhone");
+                    b.ToTable("EmployeeCabinetPhones");
                 });
 
             modelBuilder.Entity("PhoneApi.Models.Phone", b =>
@@ -108,17 +114,17 @@ namespace PhoneApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhoneApi.Models.EmployeePhone", b =>
+            modelBuilder.Entity("PhoneApi.Models.EmployeeCabinetPhone", b =>
                 {
-                    b.HasOne("PhoneApi.Models.Employee", "Employee")
-                        .WithMany("EmployeePhones")
-                        .HasForeignKey("EmployeeId")
+                    b.HasOne("PhoneApi.Models.CabinetPhone", "CabinetPhone")
+                        .WithMany("EmployeeCabinetPhones")
+                        .HasForeignKey("CabinetPhoneId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhoneApi.Models.Phone", "Phone")
-                        .WithMany("EmployeePhones")
-                        .HasForeignKey("PhoneId")
+                    b.HasOne("PhoneApi.Models.Employee", "Employee")
+                        .WithMany("EmployeeCabinetPhones")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

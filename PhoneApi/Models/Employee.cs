@@ -12,14 +12,14 @@ namespace PhoneApi.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
-        public ICollection<EmployeePhone> EmployeePhones { get; set; }
+        public ICollection<EmployeeCabinetPhone> EmployeeCabinetPhones { get; set; }
         [NotMapped]
-        public ICollection<Phone> Phones { get; set; }
+        public ICollection<CabinetPhone> CabinetPhones { get; set; }
 
         public Employee()
         {
-            EmployeePhones = new List<EmployeePhone>();
-            Phones = new List<Phone>();
+            EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+            CabinetPhones = new List<CabinetPhone>();
         }
     }
 }

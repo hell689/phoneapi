@@ -48,23 +48,25 @@ namespace PhoneApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CabinetPhone",
+                name: "CabinetPhones",
                 columns: table => new
                 {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     CabinetId = table.Column<long>(nullable: false),
                     PhoneId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CabinetPhone", x => new { x.CabinetId, x.PhoneId });
+                    table.PrimaryKey("PK_CabinetPhones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CabinetPhone_Cabinets_CabinetId",
+                        name: "FK_CabinetPhones_Cabinets_CabinetId",
                         column: x => x.CabinetId,
                         principalTable: "Cabinets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CabinetPhone_Phones_PhoneId",
+                        name: "FK_CabinetPhones_Phones_PhoneId",
                         column: x => x.PhoneId,
                         principalTable: "Phones",
                         principalColumn: "Id",
@@ -72,53 +74,58 @@ namespace PhoneApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeePhone",
+                name: "EmployeeCabinetPhones",
                 columns: table => new
                 {
                     EmployeeId = table.Column<long>(nullable: false),
-                    PhoneId = table.Column<long>(nullable: false)
+                    CabinetPhoneId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeePhone", x => new { x.EmployeeId, x.PhoneId });
+                    table.PrimaryKey("PK_EmployeeCabinetPhones", x => new { x.EmployeeId, x.CabinetPhoneId });
                     table.ForeignKey(
-                        name: "FK_EmployeePhone_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
+                        name: "FK_EmployeeCabinetPhones_CabinetPhones_CabinetPhoneId",
+                        column: x => x.CabinetPhoneId,
+                        principalTable: "CabinetPhones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeePhone_Phones_PhoneId",
-                        column: x => x.PhoneId,
-                        principalTable: "Phones",
+                        name: "FK_EmployeeCabinetPhones_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CabinetPhone_PhoneId",
-                table: "CabinetPhone",
+                name: "IX_CabinetPhones_CabinetId",
+                table: "CabinetPhones",
+                column: "CabinetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CabinetPhones_PhoneId",
+                table: "CabinetPhones",
                 column: "PhoneId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmployeePhone_PhoneId",
-                table: "EmployeePhone",
-                column: "PhoneId");
+                name: "IX_EmployeeCabinetPhones_CabinetPhoneId",
+                table: "EmployeeCabinetPhones",
+                column: "CabinetPhoneId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CabinetPhone");
+                name: "EmployeeCabinetPhones");
 
             migrationBuilder.DropTable(
-                name: "EmployeePhone");
-
-            migrationBuilder.DropTable(
-                name: "Cabinets");
+                name: "CabinetPhones");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Cabinets");
 
             migrationBuilder.DropTable(
                 name: "Phones");

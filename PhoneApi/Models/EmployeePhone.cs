@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace PhoneApi.Models
 {
-    public class EmployeePhone
+    public class EmployeeCabinetPhone
     {
         public long EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
-        public long PhoneId { get; set; }
-        public Phone Phone { get; set; }
+        public long CabinetPhoneId { get; set; }
+        public CabinetPhone CabinetPhone { get; set; }
     }
 }

@@ -13,6 +13,8 @@
     <Compile Remove="Migrations\20200320060204_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200320063722_InitialMigration.cs" />
     <Compile Remove="Migrations\20200320063722_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200401193620_EmployeeChange.cs" />
+    <Compile Remove="Migrations\20200401193620_EmployeeChange.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +27,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
