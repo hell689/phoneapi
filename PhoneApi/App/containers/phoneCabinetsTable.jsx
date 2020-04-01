@@ -34,6 +34,12 @@ export default class PhoneCabinetsTable extends React.Component {
         this.getPhoneCabinets(this.props.editedPhone.id);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.editedPhone !== prevProps.editedPhone) {
+            this.getPhoneCabinets(this.props.editedPhone.id);
+        }
+    }
+
     getCabinets() {
         fetch(window.constants.cabinets)
             .then((response) => {

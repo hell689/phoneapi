@@ -33,6 +33,12 @@ export default class employeePhonesTable extends React.Component {
         this.getEmployeePhones(this.props.editedEmployee.id);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.editedEmployee !== prevProps.editedEmployee) {
+            this.getEmployeePhones(this.props.editedEmployee.id);
+        }
+    }
+
     getPhones() {
         fetch(window.constants.phones)
             .then((response) => {
