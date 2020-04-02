@@ -7,7 +7,7 @@ function ShowTable(props) {
 
     if (isShow) {
         return <EmployeePhonesTable showTable={props.showTable}
-            phones={props.phones} editedEmployee={props.editedEmployee}
+            editedEmployee={props.editedEmployee}
             clickCloseTable={props.clickCloseTable} />;
     }
     return <div></div>;
@@ -21,7 +21,6 @@ export default class Employee extends React.Component {
             newName: "",
             newSurname: "",
             newPatronymic: "",
-            phones: [],
             showAddPhoneToEmployee: false,
             editedEmployee: {},
             isLoading: false,
@@ -166,7 +165,7 @@ export default class Employee extends React.Component {
                 </form>
 
                 <ShowTable showTable={this.state.showAddPhoneToEmployee}
-                    phones={this.state.phones} editedEmployee={this.state.editedEmployee}
+                    editedEmployee={this.state.editedEmployee}
                     clickCloseTable={this.clickCloseTable} />
 
             </div>
