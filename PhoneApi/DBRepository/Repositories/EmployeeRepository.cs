@@ -33,6 +33,10 @@ namespace PhoneApi.DBRepository.Repositories
                     {
                         CabinetPhone cabinetPhone = context.CabinetPhones.FirstOrDefault(p => p.Id == employeeCabinetPhone.CabinetPhoneId);
                         cabinetPhone.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                        cabinetPhone.Cabinet = context.Cabinets.FirstOrDefault(c => c.Id == cabinetPhone.CabinetId);
+                        cabinetPhone.Cabinet.CabinetPhones = new List<CabinetPhone>();
+                        cabinetPhone.Phone = context.Phones.FirstOrDefault(p => p.Id == cabinetPhone.PhoneId);
+                        cabinetPhone.Phone.CabinetPhones = new List<CabinetPhone>();
                         cabinetPhones.Add(cabinetPhone);
                     }
                     employee.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
@@ -55,6 +59,10 @@ namespace PhoneApi.DBRepository.Repositories
                 {
                     CabinetPhone cabinetPhone = context.CabinetPhones.FirstOrDefault(p => p.Id == employeeCabinetPhone.CabinetPhoneId);
                     cabinetPhone.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
+                    cabinetPhone.Cabinet = context.Cabinets.FirstOrDefault(c => c.Id == cabinetPhone.CabinetId);
+                    cabinetPhone.Cabinet.CabinetPhones = new List<CabinetPhone>();
+                    cabinetPhone.Phone = context.Phones.FirstOrDefault(p => p.Id == cabinetPhone.PhoneId);
+                    cabinetPhone.Phone.CabinetPhones = new List<CabinetPhone>();
                     cabinetPhones.Add(cabinetPhone);
                 }
                 employee.EmployeeCabinetPhones = new List<EmployeeCabinetPhone>();
