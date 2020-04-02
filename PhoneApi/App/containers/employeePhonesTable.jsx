@@ -5,9 +5,9 @@ function EmployeePhoneList(props) {
         return null;
     }
 
-    const employeePhoneList = props.employeePhones.map((phone) => {
+    const employeePhoneList = props.employeePhones.map((cabinetPhone) => {
         return <button type="button" className="btn btn-outline-primary m-1"
-            key={phone.id} onClick={(e) => props.parent.removePhonefromEmployee(props.editedEmployee, phone.id, props.parent)}>{phone.phoneNumber}</button>;
+            key={cabinetPhone.id} onClick={(e) => props.parent.removePhonefromEmployee(props.editedEmployee, cabinetPhone.id, props.parent)}>{cabinetPhone.phone.phoneNumber} (каб {cabinetPhone.cabinet.cabinetNumber})</button>;
     });
 
     return (
@@ -21,7 +21,7 @@ export default class employeePhonesTable extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            phones: [],
+            cabinetPhones: [],
             employeePhones: [],
             isLoading: false,
         };
@@ -40,12 +40,12 @@ export default class employeePhonesTable extends React.Component {
     }
 
     getPhones() {
-        fetch(window.constants.phones)
+        fetch(window.constants.employees + "/cabinetphones")
             .then((response) => {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    phones: data.filter(x => this.state.employeePhones.filter(y => y.id == x.id).length == 0)
+                    cabinetPhones: data.filter(x => this.state.employeePhones.filter(y => y.id == x.id).length == 0)
                 });
             }
             )
@@ -57,21 +57,21 @@ export default class employeePhonesTable extends React.Component {
                 return response.json();
             }).then((data) => {
                 this.setState({
-                    employeePhones: data.phones
+                    employeePhones: data.cabinetPhones
                 });
                 this.getPhones();
             }
             )
     }
 
-    addPhoneToEmployee(employee, phoneId) {
-        fetch(window.constants.employees + "/" + employee.id + "/" + phoneId, {
+    addPhoneToEmployee(employee, cabinetPhoneId) {
+        fetch(window.constants.employees + "/" + employee.id + "/" + cabinetPhoneId, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                phoneId: phoneId,
+                cabinetPhoneId: cabinetPhoneId,
                 employeeId: employee.id
             })
         })
@@ -85,9 +85,9 @@ export default class employeePhonesTable extends React.Component {
         
     }
 
-    removePhonefromEmployee(employee, phoneId) {
+    removePhonefromEmployee(employee, cabinetPhoneId) {
         this.setState({ isLoading: true });
-        fetch(window.constants.employees + "/" + employee.id + "/" + phoneId, {
+        fetch(window.constants.employees + "/" + employee.id + "/" + cabinetPhoneId, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json'
@@ -103,9 +103,9 @@ export default class employeePhonesTable extends React.Component {
 
     render() {
 
-        const phoneList = this.state.phones.map((phone) => {
+        const phoneList = this.state.cabinetPhones.map((cabinetPhone) => {
             return <button type="button" className="btn btn-primary ml-1"
-                key={phone.id} onClick={(e) => this.addPhoneToEmployee(this.props.editedEmployee, phone.id)}>{phone.phoneNumber}</button>;
+                key={cabinetPhone.id} onClick={(e) => this.addPhoneToEmployee(this.props.editedEmployee, cabinetPhone.id)}>{cabinetPhone.phone.phoneNumber}(каб {cabinetPhone.cabinet.cabinetNumber})</button>;
         });
 
         return (

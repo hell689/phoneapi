@@ -3,9 +3,9 @@ import Spinner from './spinner.jsx';
 
 function EmployeePhones(props) {
 
-    const employeePhoneList = props.employeePhones.map((phone, index) => {
-        return <li className="list-group-item" key={index}>{phone.phoneNumber + "  "} 
-            (каб. № <PhoneCabinets cabinets={phone.cabinets} />)</li>;
+    const employeePhoneList = props.employeePhones.map((cabinetPhone, index) => {
+        return <li className="list-group-item" key={index}>{cabinetPhone.phone.phoneNumber + "  "} 
+            (каб. № {cabinetPhone.cabinet.cabinetNumber})</li>;
 
     });
 
@@ -65,7 +65,7 @@ export default class Home extends React.Component {
                     {employee.surname + "  " + employee.name + "  " + employee.patronymic}
                 </td>
                 <td>
-                    <EmployeePhones employeePhones={employee.phones} />
+                    <EmployeePhones employeePhones={employee.cabinetPhones} />
                 </td>
             </tr>;
         });
