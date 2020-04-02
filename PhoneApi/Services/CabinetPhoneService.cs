@@ -1,4 +1,5 @@
-﻿using PhoneApi.Models;
+﻿using PhoneApi.DBRepository.Interfaces;
+using PhoneApi.Models;
 using PhoneApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,16 @@ namespace PhoneApi.Services
 {
     public class CabinetPhoneService : ICabinetPhoneService
     {
-        public Task<CabinetPhone> GetCabinetPhone(int cabinetPhoneId)
+
+        ICabinetPhoneRepository _repository;
+
+        public CabinetPhoneService (ICabinetPhoneRepository repository)
+        {
+            _repository = repository;
+        }
+        public async Task<CabinetPhone> GetCabinetPhone(int cabinetPhoneId)
         {   
-            return null;
+            return await _repository.GetCabinetPhone(cabinetPhoneId);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace PhoneApi
             services.AddScoped<IPhoneRepository>(provider => new PhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<ICabinetRepository>(provider => new CabinetRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<IEmployeeRepository>(provider => new EmployeeRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddScoped<ICabinetPhoneRepository>(provider => new CabinetPhoneRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IPhoneService, PhoneService>();
             services.AddScoped<ICabinetService, CabinetService>();
