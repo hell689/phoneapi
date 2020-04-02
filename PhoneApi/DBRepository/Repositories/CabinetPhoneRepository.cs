@@ -20,5 +20,15 @@ namespace PhoneApi.DBRepository.Repositories
                 return cabinetPhone;
             }
         }
+
+        public List<CabinetPhone> GetAllCabinetPhones()
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                List<CabinetPhone> cabinetPhones = context.CabinetPhones.ToList();
+
+                return cabinetPhones;
+            }
+        }
     }
 }

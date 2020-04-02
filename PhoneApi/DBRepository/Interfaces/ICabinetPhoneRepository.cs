@@ -9,5 +9,7 @@ namespace PhoneApi.DBRepository.Interfaces
     public interface ICabinetPhoneRepository
     {
         Task<CabinetPhone> GetCabinetPhone(int cabinetPhoneId);
+
+        List<CabinetPhone> GetAllCabinetPhones();
     }
 }
