@@ -77,5 +77,11 @@ namespace PhoneApi.Controllers
             await employeeService.DeletePhoneFromEmployee(employee, cabinetPhone);
             return Ok(employee);
         }
+
+        [HttpGet("cabinetphones")]
+        public async Task<List<CabinetPhone>> AllCabinetPhones()
+        {
+            return await cabinetPhoneService.GetAllCabinetPhones();
+        }
     }
 }

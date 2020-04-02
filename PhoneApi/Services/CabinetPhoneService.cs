@@ -12,14 +12,34 @@ namespace PhoneApi.Services
     {
 
         ICabinetPhoneRepository _repository;
+        IPhoneRepository phoneRepository;
+        ICabinetRepository cabinetRepository;
 
-        public CabinetPhoneService (ICabinetPhoneRepository repository)
+        public CabinetPhoneService (ICabinetPhoneRepository repository, IPhoneRepository phoneRepository, ICabinetRepository cabinetRepository)
         {
             _repository = repository;
+            this.cabinetRepository = cabinetRepository;
+            this.phoneRepository = phoneRepository;
         }
+
+        public async Task<List<CabinetPhone>> GetAllCabinetPhones()
+        {
+            List<CabinetPhone> cabinetPhones = _repository.GetAllCabinetPhones();
+            foreach (CabinetPhone cabinetPhone in cabinetPhones)
+            {
+                cabinetPhone.Phone = await phoneRepository.GetPhone(unchecked((int)cabinetPhone.PhoneId));
+                cabinetPhone.Cabinet = await cabinetRepository.GetCabinet(unchecked((int)cabinetPhone.CabinetId));
+            }
+            return cabinetPhones;
+        }
+
         public async Task<CabinetPhone> GetCabinetPhone(int cabinetPhoneId)
-        {   
-            return await _repository.GetCabinetPhone(cabinetPhoneId);
+        {
+            CabinetPhone cabinetPhone = await _repository.GetCabinetPhone(cabinetPhoneId);
+            cabinetPhone.Phone = await phoneRepository.GetPhone(unchecked((int)cabinetPhone.PhoneId));
+            cabinetPhone.Cabinet = await cabinetRepository.GetCabinet(unchecked((int)cabinetPhone.CabinetId));
+
+            return cabinetPhone;
         }
     }
 }

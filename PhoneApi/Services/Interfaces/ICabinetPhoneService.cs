@@ -9,5 +9,7 @@ namespace PhoneApi.Services.Interfaces
     public interface ICabinetPhoneService
     {
         Task<CabinetPhone> GetCabinetPhone(int cabinetPhoneId);
+
+        Task<List<CabinetPhone>> GetAllCabinetPhones();
     }
 }
