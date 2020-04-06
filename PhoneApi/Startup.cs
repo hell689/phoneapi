@@ -1,14 +1,17 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using PhoneApi.DBRepository;
 using PhoneApi.DBRepository.Interfaces;
 using PhoneApi.DBRepository.Repositories;
 using PhoneApi.Services;
 using PhoneApi.Services.Interfaces;
+using PhoneApi.Utils.Auth;
 
 namespace PhoneApi
 {
@@ -24,7 +27,7 @@ namespace PhoneApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();//options => options.EnableEndpointRouting = false);
+            services.AddMvc();
             services.AddControllers();
             
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
@@ -37,6 +40,21 @@ namespace PhoneApi
             services.AddScoped<ICabinetService, CabinetService>();
             services.AddScoped<ICabinetPhoneService, CabinetPhoneService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+           {
+               options.RequireHttpsMetadata = false;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidIssuer = AuthOptions.ISSUER,
+                   ValidateAudience = true,
+                   ValidAudience = AuthOptions.AUDIENCE,
+                   ValidateLifetime = true,
+                   IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                   ValidateIssuerSigningKey = true,
+               };
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,8 +69,7 @@ namespace PhoneApi
 
             app.UseRouting();
             app.UseStaticFiles();
-
-            //app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
