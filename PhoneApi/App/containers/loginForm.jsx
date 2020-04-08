@@ -38,7 +38,8 @@ export default class LoginForm extends React.Component {
         }).catch((ex) => {
             alert(ex);
         })
-        
+
+        this.forceUpdate();
     }
     
 
@@ -49,11 +50,13 @@ export default class LoginForm extends React.Component {
                     <label>Логин</label>
                     <input type="text" className="form-control" id="loginInput" value={this.state.login} required
                         onChange={this.handleChangeLogin.bind(this)} />
+                    <small className="form-text text-muted">Напр. admin</small>
                 </div>
                 <div className="form-group">
                     <label>Пароль</label>
                 <input type="password" className="form-control" id="passwordInput" value={this.state.password} required
-                    onChange={this.handleChangePassword.bind(this)} />
+                        onChange={this.handleChangePassword.bind(this)} />
+                    <small className="form-text text-muted">Напр. 123</small>
                 </div>
                 <button type="submit" className="btn btn-primary">Отправить</button>
             </form>
