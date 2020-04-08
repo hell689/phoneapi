@@ -1,5 +1,14 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
+import AuthHelper from './authHelper.jsx';
+
+function LoginUnlogin(props) {
+    if (AuthHelper.isLogged()) {
+        return AuthHelper.getLogin() + " Выйти";
+    } else {
+        return <Link className="nav-link active my-2 my-sm-0" to="/login">Войти</Link>;
+    }
+}
 
 export default class Header extends React.Component {
     render() {
@@ -28,6 +37,8 @@ export default class Header extends React.Component {
                                 <Link className="nav-link" to="/about" >info</Link>
                             </li>
                         </ul>
+                        
+                        <LoginUnlogin />
                     </div>                                      
                 </nav>
             </header>
