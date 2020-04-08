@@ -40,6 +40,7 @@ namespace PhoneApi
             services.AddScoped<ICabinetService, CabinetService>();
             services.AddScoped<ICabinetPhoneService, CabinetPhoneService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
            {
@@ -86,6 +87,10 @@ namespace PhoneApi
                     name: "EmployeeApi",
                     pattern: "api/employee/{id?}",
                     defaults: new { controller = "Employee" });
+                endpoints.MapControllerRoute(
+                    name: "IdentityApi",
+                    pattern: "api/identity/{action}",
+                    defaults: new { controller = "Identity", action="Token"});
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "",

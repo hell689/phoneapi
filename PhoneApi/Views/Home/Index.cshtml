@@ -13,7 +13,9 @@
         constants = {
             phones: '@Url.RouteUrl("PhoneApi", new {controller = "Phone"})',
             employees: '@Url.RouteUrl("EmployeeApi", new {controller = "Employee"})',
-            cabinets: '@Url.RouteUrl("CabinetApi", new {controller = "Cabinet"})'
+            cabinets: '@Url.RouteUrl("CabinetApi", new {controller = "Cabinet"})',
+            token: '@Url.RouteUrl("IdentityApi", new { controller = "Identity", action = "token" })',
+            tokenKey: 'tokenKey'
         }
     </script>
     <title>Index</title>

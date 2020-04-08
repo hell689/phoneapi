@@ -12,7 +12,7 @@ namespace PhoneApi.Services
 
         private List<User> users = new List<User>
         {
-            new User{Login = "admin", Password = "MTIz", Role="Administrator"} //123
+            new User{Login = "admin", Password = "pmWkWSBCL51Bfkhn79xPuKBKHz//H6B+mY6G9/eieuM=", Role="Administrator"} //123
         };
         public User GetUser(string login)
         {
