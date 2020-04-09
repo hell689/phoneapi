@@ -22,7 +22,7 @@ export default class App extends React.Component {
                             <Route path="/cabinet" component={Cabinet} />
                             <Route path="/employee" component={Employee} />
                             <Route path="/login" component={LoginForm} />
-                            <Route path="/" component={Home} />
+                            <Route component={Home} />
                         </Switch>
                     </div>
                 </div>
