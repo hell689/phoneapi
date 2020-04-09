@@ -1,6 +1,8 @@
 ﻿import React from 'react';
 import Spinner from './spinner.jsx';
 import PhoneCabinetsTable from './phoneCabinetsTable.jsx';
+import AuthHelper from './authHelper.jsx';
+import { Redirect } from 'react-router-dom';
 
 function ShowTable(props) {
     const isShow = props.showTable;
@@ -23,12 +25,18 @@ export default class Phone extends React.Component {
             editedPhone: {},
             isLoading: false,
         };
+        this._isMounted = false;
         this.clickCloseTable = this.clickCloseTable.bind(this);
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.setState({ isLoading: true });
         this.getPhones();  
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getPhones() {
@@ -37,10 +45,12 @@ export default class Phone extends React.Component {
             .then((response) => {
                 return response.json();
             }).then((data) => {
-                this.setState({
-                    phones: data,
-                    isLoading: false
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        phones: data,
+                        isLoading: false
+                    });
+                }
             }
             )  
     }
@@ -116,7 +126,13 @@ export default class Phone extends React.Component {
         });   
     }
 
+
     render() {
+
+        if (!AuthHelper.isLogged()) {
+            return <Redirect to="/login" />
+        }
+
         const phoneList = this.state.phones.map((phone, index) => {
             return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}
                 onClick={(e) => this.clickPhone(phone, this)} >

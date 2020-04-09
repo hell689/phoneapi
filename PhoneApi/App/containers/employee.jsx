@@ -1,6 +1,8 @@
 ﻿import React from 'react';
 import Spinner from './spinner.jsx';
 import EmployeePhonesTable from './employeePhonesTable.jsx';
+import AuthHelper from './authHelper.jsx';
+import { Redirect } from 'react-router-dom';
 
 function ShowTable(props) {
     const isShow = props.showTable;
@@ -25,13 +27,19 @@ export default class Employee extends React.Component {
             editedEmployee: {},
             isLoading: false,
         };
+        this._isMounted = false;
         this.clickCloseTable = this.clickCloseTable.bind(this);
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.setState({ isLoading: true });
         this.getEmployees();
 
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getEmployees() {
@@ -39,10 +47,12 @@ export default class Employee extends React.Component {
             .then((response) => {
                 return response.json();
             }).then((data) => {
-                this.setState({
-                    employees: data,
-                    isLoading: false
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        employees: data,
+                        isLoading: false
+                    });
+                }
             }
             )
     }
@@ -131,6 +141,11 @@ export default class Employee extends React.Component {
     }
 
     render() {
+
+        if (!AuthHelper.isLogged()) {
+            return <Redirect to="/login" />
+        }
+
         const list = this.state.employees.map((employee, index) => {
             return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}
                 onClick={(e) => this.clickEmployee(employee, this)}>

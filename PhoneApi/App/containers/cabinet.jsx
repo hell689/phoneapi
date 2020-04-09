@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import Spinner from './spinner.jsx';
+import AuthHelper from './authHelper.jsx';
+import { Redirect } from 'react-router-dom';
 
 export default class Cabinet extends React.Component {
     constructor() {
@@ -9,12 +11,18 @@ export default class Cabinet extends React.Component {
             newCabinet: "",
             isLoading: false,
         };
+        this._isMounted = false;
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.setState({ isLoading: true });
         this.getCabinets(); 
         
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     getCabinets() {
@@ -22,10 +30,12 @@ export default class Cabinet extends React.Component {
             .then((response) => {
                 return response.json();
             }).then((data) => {
-                this.setState({
-                    cabinets: data,
-                    isLoading: false
-                });
+                if (this._isMounted) {
+                    this.setState({
+                        cabinets: data,
+                        isLoading: false
+                    });
+                }
             }
             )  
     }
@@ -77,6 +87,11 @@ export default class Cabinet extends React.Component {
     }
 
     render() {
+
+        if (!AuthHelper.isLogged()) {
+            return <Redirect to="/login" />
+        }
+
         const list = this.state.cabinets.map((cabinet, index) => {
             return <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
                 {cabinet.cabinetNumber}
