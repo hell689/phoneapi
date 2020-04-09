@@ -1,12 +1,14 @@
 ﻿import React from 'react';
 import AuthHelper from './authHelper.jsx';
+import { Redirect } from 'react-router-dom';
 
 export default class LoginForm extends React.Component {
     constructor() {
         super();
         this.state = {
             login: "",
-            password: ""
+            password: "",
+            isLogged: false
         }
     }
 
@@ -18,6 +20,12 @@ export default class LoginForm extends React.Component {
     handleChangePassword(event) {
         let password = event.target.value;
         this.setState({ password: password });
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.state.isLogged != AuthHelper.isLogged()) {
+            this.setState({ isLogged: AuthHelper.isLogged() });
+        }
     }
 
     sendForm(event) {
@@ -35,15 +43,19 @@ export default class LoginForm extends React.Component {
             return response.json();
         }).then((data) => {
             AuthHelper.saveAuth(data.login, data.access_token);
+            this.props.history.push("/");            
         }).catch((ex) => {
-            alert(ex);
+            alert("Ошибка авторизации");
         })
 
-        this.forceUpdate();
     }
     
 
     render() {
+        if (AuthHelper.isLogged()) {
+            return <Redirect to="/" />
+        }
+
         return (
             <form onSubmit={this.sendForm.bind(this)}>
                 <div className="form-group">
