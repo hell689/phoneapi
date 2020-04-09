@@ -1,16 +1,31 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import AuthHelper from './authHelper.jsx';
 
 function LoginUnlogin(props) {
     if (props.isLogged) {
-        return <button className="btn btn-primary my-2 my-sm-0" onClick={() => { AuthHelper.clearAuth();}}>Выйти</button>;
+        return <button className="btn btn-primary my-2 my-sm-0" onClick={(e) => {props.parent.unloginButtonClick(props.parent); }}>Выйти</button>;
     } else {
-        return <Link className="nav-link active my-2 my-sm-0" to="/login">Войти</Link>;
+        return <Link className="btn btn-primary my-2 my-sm-0" to="/login">Войти</Link>;
     }
 }
 
 export default class Header extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.unloginButtonClick = this.unloginButtonClick.bind(this);
+    }
+
+    unloginButtonClick() {
+        if (confirm("Вы действительно хотите выйти?")) {
+            AuthHelper.clearAuth(); 
+            window.location = document.location.protocol + '//' + document.location.host;
+        }
+    }
+
     render() {
         return (
             <header>
@@ -38,7 +53,7 @@ export default class Header extends React.Component {
                             </li>
                         </ul>
                         
-                        <LoginUnlogin isLogged={AuthHelper.isLogged()}/>
+                        <LoginUnlogin isLogged={AuthHelper.isLogged()} parent={this} />
                     </div>                                      
                 </nav>
             </header>
